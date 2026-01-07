@@ -56,7 +56,8 @@ jobs:
             gh pr create \
               --head "${{ github.ref_name }}" \
               --base develop \
-              --title "Automated PR ${{ github.ref_name }} into Develop"
+              --title "Automated PR ${{ github.ref_name }} into Develop" \
+              --body ""
           else
             echo "PR already exists for this branch. Skipping."
           fi
