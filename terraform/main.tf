@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "infra-terraform-state" # Crie este bucket manualmente antes
+    bucket = "infra-gpm-terraform-state"
     prefix = "terraform/state"
   }
 }
