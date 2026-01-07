@@ -41,6 +41,9 @@ jobs:
     name: 'Create Pull Request'
     needs: terraform-validation
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
