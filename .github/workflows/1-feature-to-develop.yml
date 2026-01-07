@@ -49,14 +49,15 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Verifica se já existe um PR aberto para evitar erro
+          # Create PR if it not exists
           PR_EXISTS=$(gh pr list --head "${{ github.ref_name }}" --base develop --json number -q '.[0].number')
           
           if [ -z "$PR_EXISTS" ]; then
             gh pr create \
               --head "${{ github.ref_name }}" \
               --base develop \
-              --title "Automated PR ${{ github.ref_name }} into Develop"
+              --title "Automated PR ${{ github.ref_name }} into Develop" \
+              --body ""
           else
             echo "PR already exists for this branch. Skipping."
           fi
