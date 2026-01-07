@@ -45,11 +45,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: develop
-          branch: ${{ github.ref_name }}
-          title: "Feat: Merging ${{ github.ref_name }} into Develop"
-          body: "Automated PR created after successful Terraform Plan."
+      - name: Create PR to Develop
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Verifica se já existe um PR aberto para evitar erro
+          PR_EXISTS=$(gh pr list --head "${{ github.ref_name }}" --base develop --json number -q '.[0].number')
+          
+          if [ -z "$PR_EXISTS" ]; then
+            gh pr create \
+              --head "${{ github.ref_name }}" \
+              --base develop \
+              --title "Feat: Merging ${{ github.ref_name }} into Develop" \
+              --body "Automated PR created after successful Terraform Plan."
+          else
+            echo "PR already exists for this branch. Skipping."
+          fi
