@@ -6,5 +6,5 @@ variable "project_id" {
 variable "region" {
   description = "Resource's region"
   type        = string
-  default     = "southamerica-east1"
+  default     = "us-east1"
 }
