@@ -41,9 +41,6 @@ jobs:
     name: 'Create Pull Request'
     needs: terraform-validation
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -59,8 +56,7 @@ jobs:
             gh pr create \
               --head "${{ github.ref_name }}" \
               --base develop \
-              --title "Feat: Merging ${{ github.ref_name }} into Develop" \
-              --body "Automated PR created after successful Terraform Plan."
+              --title "Automated PR ${{ github.ref_name }} into Develop"
           else
             echo "PR already exists for this branch. Skipping."
           fi
