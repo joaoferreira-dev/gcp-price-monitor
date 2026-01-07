@@ -49,7 +49,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Verifica se já existe um PR aberto para evitar erro
+          # Create PR if it not exists
           PR_EXISTS=$(gh pr list --head "${{ github.ref_name }}" --base develop --json number -q '.[0].number')
           
           if [ -z "$PR_EXISTS" ]; then
