@@ -7,6 +7,7 @@ data "archive_file" "function_zip" {
 resource "google_storage_bucket" "bucket" {
   name     = "${var.project_id}-gcf-source"
   location = var.location
+  project  = var.project_id
 }
 
 resource "google_storage_bucket_object" "archive" {
