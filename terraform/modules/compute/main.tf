@@ -30,7 +30,7 @@ resource "google_cloudfunctions_function" "function" {
 }
 
 resource "google_service_account" "scheduler_sa" {
-  account_id   = "117206793125862867043"
+  account_id   = "gcp-price-monitor-scheduler"
   display_name = "gcp-price-monitor"
   project      = var.project_id
 }
