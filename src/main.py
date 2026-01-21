@@ -2,9 +2,10 @@ import functions_framework
 import requests
 import logging
 from typing import Dict, Any
+from time import time
 
 from bs4 import BeautifulSoup
-from google.cloud import firestore
+from firebase_admin import firestore, initialize_app
 
 
 logger = logging.getLogger("gcp-price-monitor")
@@ -38,12 +39,14 @@ def handler(request) -> Dict[str, Any]:
         logger.info(f'BTCUSD price found: {btcusd_price}')
 
         # Initialize Firestore client
-        db = firestore.Client()
+        initialize_app()
+        db = firestore.client()
+
         doc_ref = db.collection('prices').document('BTCUSD')
         doc_ref.set({
             'price': btcusd_price,
             'source': url,
-            'timestamp': firestore.SERVER_TIMESTAMP
+            'timestamp': str(int(time()))
         })
         logger.info('Price successfully saved to Firestore.')
         return {'statusCode': 200, 'details': 'OK', 'price': btcusd_price}
