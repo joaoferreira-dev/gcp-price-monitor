@@ -42,8 +42,16 @@ resource "google_cloud_scheduler_job" "job" {
   region   = var.region
 
   http_target {
-    http_method = "GET"
+    http_method = "POST"
     uri         = google_cloudfunctions_function.function.https_trigger_url
+
+    body = base64encode(jsonencode({
+      url = "https://br.tradingview.com/symbols/BTCUSD/"
+    }))
+
+    headers = {
+      "Content-Type" = "application/json"
+    }
 
     oidc_token {
       service_account_email = google_service_account.scheduler_sa.email
