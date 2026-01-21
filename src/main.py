@@ -5,11 +5,14 @@ from typing import Dict, Any
 from time import time
 
 from bs4 import BeautifulSoup
-from firebase_admin import firestore, initialize_app
+from firebase_admin import firestore, initialize_app, _apps
 
 
 logger = logging.getLogger("gcp-price-monitor")
 logger.setLevel(logging.INFO)
+
+if not _apps:
+    initialize_app()
 
 @functions_framework.http
 def handler(request) -> Dict[str, Any]:
