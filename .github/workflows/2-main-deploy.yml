@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  terraform-apply:
+  terraform:
     runs-on: ubuntu-latest
     env:
       GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
@@ -23,6 +23,12 @@ jobs:
       - name: Terraform Init
         run: terraform init
         working-directory: ./terraform
+
+      - name: Terraform Import Firestore
+        run: |
+          terraform import -input=false -no-color module.database.google_firestore_database.database projects/${{ secrets.GCP_PROJECT_ID }}/databases/\(default\) || echo "Database already in state"
+        working-directory: ./terraform
+        continue-on-error: true
 
       - name: Terraform Apply
         run: terraform apply -auto-approve

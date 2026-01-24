@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  terraform-validation:
+  terraform:
     name: 'Terraform Validation'
     runs-on: ubuntu-latest
     env:
