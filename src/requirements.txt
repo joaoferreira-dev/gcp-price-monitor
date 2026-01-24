@@ -2,3 +2,4 @@ functions_framework
 requests
 beautifulsoup4
 firebase_admin
+google-cloud-logging
