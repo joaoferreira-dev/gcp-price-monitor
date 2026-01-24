@@ -1,15 +1,17 @@
 import functions_framework
 import requests
+import logging
 from typing import Dict, Any
 from time import time
 
 from bs4 import BeautifulSoup
 from firebase_admin import firestore, initialize_app, get_app
-from google.cloud import logging
+import google.cloud.logging
 
 
-logging_client = logging.Client()
-logger = logging_client.logger("gcp-price-monitor")
+logging_client = google.cloud.logging.Client()
+logging_client.setup_logging()
+logger = logging.getLogger("gcp-price-monitor")
 
 @functions_framework.http
 def handler(request) -> Dict[str, Any]:
