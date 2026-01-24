@@ -1,15 +1,15 @@
 import functions_framework
 import requests
-import logging
 from typing import Dict, Any
 from time import time
 
 from bs4 import BeautifulSoup
 from firebase_admin import firestore, initialize_app, get_app
+from google.cloud import logging
 
 
-logger = logging.getLogger("gcp-price-monitor")
-logger.setLevel(logging.INFO)
+logging_client = logging.Client()
+logger = logging_client.logger("gcp-price-monitor")
 
 @functions_framework.http
 def handler(request) -> Dict[str, Any]:
@@ -28,7 +28,8 @@ def handler(request) -> Dict[str, Any]:
             logger.error('There is no URL in the event.')
             return {'statusCode': 400, 'details': 'URL missing in Event'}
 
-        response = requests.get(url)
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        response = requests.get(url, headers=headers)
         response.raise_for_status()
         soup = BeautifulSoup(response.content, 'html.parser')
         span = soup.find('span', {'data-qa-id': 'symbol-last-value'})
