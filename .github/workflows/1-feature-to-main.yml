@@ -49,7 +49,7 @@ jobs:
 
   create-pull-request-main:
     name: 'Create Pull Request'
-    needs: terraform-validation
+    needs: terraform
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
