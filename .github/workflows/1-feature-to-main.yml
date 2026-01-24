@@ -33,6 +33,12 @@ jobs:
         run: terraform validate
         working-directory: ./terraform
 
+      - name: Terraform Import Firestore
+        run: |
+          terraform import -input=false -no-color module.database.google_firestore_database.database projects/${{ secrets.GCP_PROJECT_ID }}/databases/\(default\) || echo "Database already in state"
+        working-directory: ./terraform
+        continue-on-error: true
+
       - name: Create tfvars file
         run: |
           echo 'project_id = "${{ secrets.GCP_PROJECT_ID }}"' > terraform/terraform.tfvars
