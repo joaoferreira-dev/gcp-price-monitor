@@ -11,7 +11,7 @@ resource "google_storage_bucket" "bucket" {
 }
 
 resource "google_storage_bucket_object" "archive" {
-  name   = "source.zip"
+  name   = "source-${data.archive_file.function_zip.output_md5}.zip"
   bucket = google_storage_bucket.bucket.name
   source = data.archive_file.function_zip.output_path
 }
@@ -22,7 +22,7 @@ resource "google_cloudfunctions_function" "function" {
   region      = var.region
   project     = var.project_id
 
-  available_memory_mb   = 128
+  available_memory_mb   = 256
   source_archive_bucket = google_storage_bucket.bucket.name
   source_archive_object = google_storage_bucket_object.archive.name
   trigger_http          = true

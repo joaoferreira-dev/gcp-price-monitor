@@ -5,7 +5,7 @@ from typing import Dict, Any
 from time import time
 
 from bs4 import BeautifulSoup
-from firebase_admin import firestore, initialize_app
+from firebase_admin import firestore, initialize_app, get_app
 
 
 logger = logging.getLogger("gcp-price-monitor")
@@ -39,7 +39,11 @@ def handler(request) -> Dict[str, Any]:
         logger.info(f'BTCUSD price found: {btcusd_price}')
 
         # Initialize Firestore client
-        initialize_app()
+        try:
+            get_app()
+        except ValueError:
+            initialize_app()
+
         db = firestore.client()
 
         doc_ref = db.collection('prices').document('BTCUSD')
