@@ -35,7 +35,7 @@ jobs:
 
       - name: Terraform Import Firestore
         run: |
-          terraform import module.database.google_firestore_database.database projects/${{ secrets.GCP_PROJECT_ID }}/databases/\(default\) || echo "Database already in state or not found"
+          terraform import -input=false -no-color module.database.google_firestore_database.database projects/${{ secrets.GCP_PROJECT_ID }}/databases/\(default\) || echo "Database already in state"
         working-directory: ./terraform
         continue-on-error: true
 
